@@ -26,13 +26,13 @@ stunnel:
       - NO_SSLv3
 
     services:
-      - name: graphite
+      - name: graphite-server
         client: 'no'
         accept: '12003'
         connect: '127.0.0.1:2003'
         nodelay: True     # l:TCP_NODELAY=1 on server, r:TCP_NODELAY=1 on client
-      - name: elasticsearch
+      - name: graphite-client
         client: 'yes'
         accept: '127.0.0.1:2003'
-        connect: 'ops.tapstream.com:12003'
+        connect: 'example.com:12003'
         nodelay: True     # l:TCP_NODELAY=1 on server, r:TCP_NODELAY=1 on client

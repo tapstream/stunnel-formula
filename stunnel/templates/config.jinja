@@ -23,7 +23,7 @@ verify = {{ stunnel.get('verify', '3') }}
 options = {{ option }}
 {% endfor -%}
 
-{% for service in stunnel.get('services', {}) -%}
+{% for service in stunnel.get('services', {}) %}
 [ {{ service.get('name') }} ]
 client = {{ service.get('client') }}
 accept = {{ service.get('accept') }}
