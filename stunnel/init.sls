@@ -1,6 +1,4 @@
-{% from "stunnel/map.jinja" import stunnel as stunnel_map with context %}
-{% set stunnel = pillar.get('stunnel', {}) %}
-
+{% from "stunnel/map.jinja" import stunnel as stunnel_map with context -%}
 stunnel:
   pkg.installed:
     - name: {{ stunnel_map.package }}

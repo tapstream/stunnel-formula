@@ -26,18 +26,13 @@ stunnel:
       - NO_SSLv3
 
     services:
-      servicename:  # The name the service will be given in the config
-        config:
-          - client: 'no'
-          - accept: '12003'
-          - connect: '127.0.0.1:2003'
-          - nodelay: True     # l:TCP_NODELAY=1 on server, r:TCP_NODELAY=1 on client
-          - 
-
-      servicename2:  # The name the service will be given in the config
-        config:
-          - client: 'yes'
-          - accept: '127.0.0.1:2003'
-          - connect: 'ops.tapstream.com:12003'
-          - nodelay: True     # l:TCP_NODELAY=1 on server, r:TCP_NODELAY=1 on client
-          - 
+      - name: graphite
+        client: 'no'
+        accept: '12003'
+        connect: '127.0.0.1:2003'
+        nodelay: True     # l:TCP_NODELAY=1 on server, r:TCP_NODELAY=1 on client
+      - name: elasticsearch
+        client: 'yes'
+        accept: '127.0.0.1:2003'
+        connect: 'ops.tapstream.com:12003'
+        nodelay: True     # l:TCP_NODELAY=1 on server, r:TCP_NODELAY=1 on client

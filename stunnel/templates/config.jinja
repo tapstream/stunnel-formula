@@ -1,5 +1,6 @@
-{% set stunnel = pillar.get('stunnel:config', {}) -%}
-{% from "stunnel/map.jinja" import stunnel as stunnel_map with context %}
+{% set stunnel = salt['pillar.get']('stunnel:config', {}) -%}
+{% from "stunnel/map.jinja" import stunnel as stunnel_map with context -%}
+# THIS FILE IS MANAGED BY SALT. DO NOT EDIT DIRECTLY
 # defaults passed via context from map.jinja
 
 chroot = {{ stunnel.get('home', default_home) }}
@@ -22,16 +23,14 @@ verify = {{ stunnel.get('verify', '3') }}
 options = {{ option }}
 {% endfor -%}
 
-{% for service in stunnel.get('services', {}) %}
-[ {{ service }} ]
+{% for service in stunnel.get('services', {}) -%}
+[ {{ service.get('name') }} ]
 client = {{ service.get('client') }}
 accept = {{ service.get('accept') }}
 connect = {{ service.get('connect') }} 
-
-{% if service.get('nodelay') and service.get('client')=='yes' %}
+{% if service.get('nodelay') and service.get('client')=='yes' -%}
 socket = l:TCP_NODELAY=1
-{% elif service.get('nodelay') and service.get('client')=='no' %}
+{% elif service.get('nodelay') and service.get('client')=='no' -%}
 socket = r:TCP_NODELAY=1
-{% endif %}
-
-{% endfor %}
+{% endif -%}
+{% endfor -%}
