@@ -9,7 +9,9 @@ stunnel:
     - group: {{ stunnel_map.default_group }}
     - makedirs: True
 
-{{ stunnel_map.conf_dir }}/stunnel.conf:
+
+{% for service in salt['pillar.get']('stunnel:config:services', {}) %}
+{{ stunnel_map.conf_dir }}/{{ service.name }}.conf:
   file.managed:
     - template: jinja
     - user: {{ stunnel_map.default_user }}
@@ -22,7 +24,10 @@ stunnel:
       default_user: {{ stunnel_map.default_user }}
       default_group: {{ stunnel_map.default_group }}
       default_home:  {{ stunnel_map.home }}
-      default_pid:  {{ stunnel_map.pid }}
+      pid:  {{ stunnel_map.pid_dir }}/{{ service.name }}.pid
+      service: {{ service }}
+{% endfor -%}
+
 
 {{ stunnel_map.log_dir }}:
   file.directory:

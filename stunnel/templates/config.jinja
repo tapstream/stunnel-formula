@@ -4,7 +4,7 @@
 # defaults passed via context from map.jinja
 
 chroot = {{ stunnel.get('home', default_home) }}
-pid = {{ stunnel.get('pid', default_pid) }}
+pid = {{ pid }}
 
 setuid = {{ stunnel.get('user', default_user) }}
 setgid = {{ stunnel.get('group', default_group) }}
@@ -23,7 +23,6 @@ verify = {{ stunnel.get('verify', '3') }}
 options = {{ option }}
 {% endfor -%}
 
-{% for service in stunnel.get('services', {}) %}
 [ {{ service.get('name') }} ]
 client = {{ service.get('client') }}
 accept = {{ service.get('accept') }}
@@ -33,4 +32,3 @@ socket = l:TCP_NODELAY=1
 {% elif service.get('nodelay') and service.get('client')=='no' -%}
 socket = r:TCP_NODELAY=1
 {% endif -%}
-{% endfor -%}

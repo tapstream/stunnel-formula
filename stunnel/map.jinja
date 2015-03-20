@@ -8,6 +8,6 @@
         'conf_dir': '/etc/stunnel',
         'log_dir': '/var/log/stunnel',
         'default': '/etc/default/stunnel4',
-        'pid': '/var/run/stunnel.pid'
+        'pid_dir': '/var/run/stunnel'
     },
 }, merge=salt['pillar.get']('stunnel:lookup'), default='Debian') %}
