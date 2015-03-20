@@ -18,10 +18,9 @@ CAfile = {{ stunnel.get('ca', '') }}
 
 verify = {{ stunnel.get('verify', '3') }}
 
-
 {% for option in stunnel.get('options', []) -%}
 options = {{ option }}
-{% endfor -%}
+{% endfor %}
 
 [ {{ service.get('name') }} ]
 client = {{ service.get('client') }}

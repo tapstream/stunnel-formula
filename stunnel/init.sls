@@ -9,6 +9,10 @@ stunnel:
     - group: {{ stunnel_map.default_group }}
     - makedirs: True
 
+{{ stunnel_map.pid_dir }}:
+  file.directory:
+    - user: {{ stunnel_map.default_user }}
+    - makedirs: True
 
 {% for service in salt['pillar.get']('stunnel:config:services', {}) %}
 {{ stunnel_map.conf_dir }}/{{ service.name }}.conf:
@@ -28,11 +32,9 @@ stunnel:
       service: {{ service }}
 {% endfor -%}
 
-
 {{ stunnel_map.log_dir }}:
   file.directory:
     - user: {{ stunnel_map.default_user }}
-    - group: {{ stunnel_map.default_group }}
     - makedirs: True
 
 {{ stunnel_map.default }}:
