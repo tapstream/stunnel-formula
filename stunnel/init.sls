@@ -32,6 +32,16 @@ stunnel:
       service: {{ service }}
 {% endfor -%}
 
+{{ stunnel_map.pskfile }}:
+  file.managed:
+    - user: {{ stunnel_map.default_user }}
+    - group: {{ stunnel_map.default_group }}
+    - mode: 600
+    - require:
+      - file: {{ stunnel_map.conf_dir }}
+    - contents: |
+      api:{{ stunnel_map.psk }}
+
 {{ stunnel_map.log_dir }}:
   file.directory:
     - user: {{ stunnel_map.default_user }}
