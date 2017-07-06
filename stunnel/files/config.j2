@@ -1,0 +1,47 @@
+{%- from "stunnel/map.jinja" import stunnel with context -%}
+{% if stunnel.config.chroot_dir is defined -%}
+chroot = {{ stunnel.config.chroot_dir }}
+{%- endif %}
+setuid = {{ stunnel.config.user }}
+setgid = {{ stunnel.config.group }}
+
+{% if stunnel.config.pid_dir is defined and stunnel.config.pid_file is defined -%}
+pid = {{ stunnel.config.pid_dir }}/{{ stunnel.config.pid_file }}
+{%- endif %}
+{% if stunnel.config.debug is defined -%}
+debug = {{ stunnel.config.debug }}
+{%- endif %}
+
+cert = {{ stunnel.config.cert_dir }}/{{ stunnel.config.cert }}
+{% if stunnel.config.key is defined -%}
+key = {{ stunnel.config.key_dir }}/{{ stunnel.config.key }}
+{%- endif %}
+{% if stunnel.config.capath is defined -%}
+CApath = {{ stunnel.config.capath }}
+{%- endif %}
+{% if stunnel.config.cafile is defined -%}
+CAfile = {{ stunnel.config.cafile_dir }}/{{ stunnel.config.cafile }}
+{%- endif %}
+verify = {{ stunnel.config.verify|default('2') }}
+
+{% if stunnel.config.sslVersion is defined -%}
+sslVersion = {{ stunnel.config.sslVersion }}
+{%- endif %}
+{% if stunnel.config.ciphers is defined -%}
+ciphers = {{ stunnel.config.ciphers }}
+{%- endif %}
+
+{% if stunnel.config.options is defined -%}
+{% for option in stunnel.config.options -%}
+options = {{ option }}
+{% endfor %}
+{%- endif %}
+
+{% for service in stunnel.config.services -%}
+[{{ service.name }}]
+client = {{ service.client|default('no') }}
+accept = {{ service.accept }}
+connect = {{ service.connect }}
+{% endfor %}
+
+; vim:ft=dosini
