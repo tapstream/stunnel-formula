@@ -14,7 +14,7 @@ provisioner:
         - stunnel
 
 platforms:
-  - name: bento/debian-8.5
+  - name: bento/debian-8.8
 
 suites:
   - name: default

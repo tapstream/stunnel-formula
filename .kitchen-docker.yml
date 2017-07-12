@@ -7,6 +7,9 @@ driver:
 provisioner:
   name: salt_solo
   is_file_root: true
+  salt_copy_filter:
+    - .kitchen
+    - .git
   state_top:
     base:
       "*":
