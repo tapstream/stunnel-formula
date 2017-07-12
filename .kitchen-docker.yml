@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
+driver:
+  name: docker
+
+provisioner:
+  name: salt_solo
+  is_file_root: true
+  salt_copy_filter:
+    - .kitchen
+    - .git
+  state_top:
+    base:
+      "*":
+        - test.mockup
+        - stunnel
+
+platforms:
+  - name: debian-8
+
+suites:
+  - name: default
+
+  - name: custom
+    provisioner:
+      pillars-from-files:
+        stunnel.sls: pillar_custom.sls
+      pillars:
+        top.sls:
+          base:
+            "*":
+              - stunnel

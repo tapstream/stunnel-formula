@@ -1,13 +1,30 @@
-{% set stunnel = salt['grains.filter_by']({
-    'Debian': {
-        'package': 'stunnel4',
-        'service': 'stunnel4',
-        'default_user': 'stunnel4',
-        'default_group': 'stunnel4',
-        'home': '/var/lib/stunnel4',
-        'conf_dir': '/etc/stunnel',
-        'log_dir': '/var/log/stunnel',
-        'default': '/etc/default/stunnel4',
-        'pid_dir': '/var/run/stunnel4'
-    },
-}, merge=salt['pillar.get']('stunnel:lookup'), default='Debian') %}
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+# This file handles the merging of pillar data with the data from defaults
+
+{## Start with  defaults from defaults.yml ##}
+{% import_yaml 'stunnel/defaults.yml' as default_settings %}
+
+{## 
+Setup variable using grains['os_family'] based logic, only add key:values here
+that differ from whats in defaults.yml
+##}
+{% set os_family_map = salt['grains.filter_by']({
+        'Debian': {},
+        'Suse': {},
+        'Arch': {},
+        'RedHat': {},
+  }
+  , grain="os_family"
+  , merge=salt['pillar.get']('stunnel:lookup'))
+%}
+{## Merge the flavor_map to the default settings ##}
+{% do default_settings.stunnel.update(os_family_map) %}
+
+{## Merge in template:lookup pillar ##}
+{% set stunnel = salt['pillar.get'](
+        'stunnel',
+        default=default_settings.stunnel,
+        merge=True
+    )
+%}
